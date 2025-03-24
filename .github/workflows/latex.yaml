@@ -28,6 +28,24 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
 
+      # Set up Python
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+          
+      # Install Python dependencies
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install matplotlib numpy
+          
+      # Run Python script to generate figures
+      - name: Generate figures
+        run: |
+          mkdir -p figures
+          python src/gen_figures.py
+
       # Runs a single command using the runners shell
       - uses: xu-cheng/latex-action@v3
         with:
