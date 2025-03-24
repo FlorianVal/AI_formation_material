@@ -49,8 +49,8 @@ Les slides couvrent les concepts fondamentaux de l'IA générative :
 1. Le concept de modèle en IA
 2. La définition mathématique d'un modèle
 3. Exemple avec un LLM (Large Language Model)
-4. Le processus d'entraînement des modèles
-5. L'évolution pendant l'entraînement (sous-apprentissage et sur-apprentissage)
+4. Génération de texte causale (autoregressive)
+5. Le processus d'entraînement des modèles
 6. Points clés à retenir
 
 ## Personnalisation

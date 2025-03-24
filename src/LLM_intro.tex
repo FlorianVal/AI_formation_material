@@ -6,7 +6,7 @@
 \usepackage{graphicx}
 \usepackage{amsmath}
 \usepackage{tikz}
-\usetikzlibrary{shapes,arrows,positioning}
+\usetikzlibrary{shapes,arrows,positioning,calc}
 
 \title{Introduction à la GenAI0}
 \author{Formation GenAI}
@@ -76,6 +76,46 @@
         \item Un \textbf{LLM} (Large Language Model) prend du texte en entrée
         \item Il prédit le mot ou la séquence suivante la plus probable
         \item Ce processus peut être répété pour générer des textes entiers
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Génération de texte causale (autoregressive)}
+    \begin{center}
+        \begin{tikzpicture}[scale=0.8, transform shape, node distance=0.4cm]
+            % Étape initiale
+            \node[draw, rounded corners, text width=4.5cm, minimum height=0.8cm, align=center, fill=blue!10] (prompt) {"Je souhaite voyager à"};
+            \node[draw, rounded corners, text width=2cm, minimum height=1.5cm, right=0.7cm of prompt, align=center, fill=purple!10] (model1) {LLM};
+            \node[draw, rounded corners, text width=1.1cm, minimum height=0.8cm, right=0.7cm of model1, align=center, fill=orange!10] (output1) {"Paris"};
+            
+            % Deuxième étape
+            \node[draw, rounded corners, text width=5.8cm, minimum height=0.8cm, align=center, fill=blue!10, below=0.9cm of prompt] (prompt2) {"Je souhaite voyager à Paris"};
+            \node[draw, rounded corners, text width=2cm, minimum height=1.5cm, right=0.7cm of prompt2, align=center, fill=purple!10] (model2) {LLM};
+            \node[draw, rounded corners, text width=1.2cm, minimum height=0.8cm, right=0.7cm of model2, align=center, fill=orange!10] (output2) {"pour"};
+            
+            % Troisième étape
+            \node[draw, rounded corners, text width=7.5cm, minimum height=0.8cm, align=center, fill=blue!10, below=0.9cm of prompt2] (prompt3) {"Je souhaite voyager à Paris pour"};
+            \node[draw, rounded corners, text width=2cm, minimum height=1.5cm, right=0.7cm of prompt3, align=center, fill=purple!10] (model3) {LLM};
+            \node[draw, rounded corners, text width=2cm, minimum height=0.8cm, right=0.7cm of model3, align=center, fill=orange!10] (output3) {"les vacances"};
+            
+            % Flèches
+            \draw[->, thick] (prompt) -- (model1);
+            \draw[->, thick] (model1) -- (output1);
+            \draw[->, thick] (prompt2) -- (model2);
+            \draw[->, thick] (model2) -- (output2);
+            \draw[->, thick] (prompt3) -- (model3);
+            \draw[->, thick] (model3) -- (output3);
+            
+            % Flèches de continuité entre étapes
+            \draw[->, thick, dashed] (output1.south) to[out=-90,in=0] ($(prompt2.east) + (0,0.1)$);
+            \draw[->, thick, dashed] (output2.south) to[out=-90,in=0] ($(prompt3.east) + (0,0.1)$);
+        \end{tikzpicture}
+    \end{center}
+    
+    \begin{itemize}
+        \item \textbf{Génération causale} : prédiction \textbf{mot par mot}
+        \item Chaque prédiction est ajoutée au contexte
+        \item Le modèle génère le texte de façon \textbf{séquentielle}
+        \item Il ne "connaît" pas les mots futurs pendant la génération
     \end{itemize}
 \end{frame}
 
